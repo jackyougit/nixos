@@ -9,10 +9,6 @@
     git
     kitty
     vscodium
-    wine
-    wineWowPackages.stable
-    winetricks
-    wineWowPackages.waylandFull
   ];
 
   # System fonts
