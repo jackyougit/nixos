@@ -3,10 +3,11 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./desktop.nix
-    ./users.nix
-    ./packages.nix
-    ./nix.nix
+
+    ./modules/system/desktop.nix
+    ./modules/system/users.nix
+    ./modules/system/packages.nix
+    ./modules/system/nix.nix
   ];
 
   networking.hostName = "jack-pc";
