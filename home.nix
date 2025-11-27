@@ -9,6 +9,7 @@
     ./apps/git
     ./apps/zsh
     ./apps/ssh
+    ./apps/wine
   ];
 
   home.username = "jack";
