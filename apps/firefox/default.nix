@@ -10,13 +10,14 @@
       isDefault = true;
 
       settings = {
-        "browser.startup.homepage" = "https://searx.aicampground.com";
+        "browser.startup.homepage" = "https://www.google.com";
       };
 
       search = {
         force = true;
-        default = "Searx";
-        order = [ "Searx" "google" ];
+        default = "google";
+        order = [ "google" "Searx" ];
+
         engines = {
           "Nix Packages" = {
             urls = [{
@@ -39,6 +40,17 @@
             definedAliases = [ "@nw" ];
           };
 
+          "google" = {
+            urls = [{
+              template = "https://www.google.com/search";
+              params = [
+                { name = "q"; value = "{searchTerms}"; }
+              ];
+            }];
+            icon = "https://www.google.com/favicon.ico";
+            definedAliases = [ "@g" ];
+          };
+
           "Searx" = {
             urls = [{
               template = "https://searx.aicampground.com/?q={searchTerms}";
@@ -57,20 +69,53 @@
         packages = with firefox-addons.packages.${pkgs.system}; [
           ublock-origin
           bitwarden
+	  sponsorblock
         ];
       };
     };
 
     policies = {
       DisableTelemetry = true;
+      DisableMasterPasswordCreation = true;
+      PasswordManagerEnabled = false;
+
       DisableFirefoxStudies = true;
       DisablePocket = true;
-      HttpsOnlyMode = "enabled";
+      HttpsOnlyMode = "force_enabled";
+
+      DisplayMenuBar = "never";
+      DisplayBookmarksToolbar = "never";
+      DontCheckDefaultBrowser = true;
+      DisableFormHistory = true;
+      OfferToSaveLogins = false;
 
       EnableTrackingProtection = {
         Value = true;
         Cryptomining = true;
         Fingerprinting = true;
+      };
+
+      Permissions = {
+        Camera = {
+          BlockNewRequests = true;
+          Locked = true;
+        };
+        Microphone = {
+          BlockNewRequests = true;
+          Locked = true;
+        };
+        VirtualReality = {
+          BlockNewRequests = true;
+          Locked = true;
+        };
+        ScreenShare = {
+          BlockNewRequests = true;
+          Locked = true;
+        };
+        Location = {
+          BlockNewRequests = true;
+          Locked = true;
+        };
       };
 
       Preferences = {
@@ -100,16 +145,18 @@
         "extensions.formautofill.creditCards.available" = false;
         "extensions.formautofill.addresses.enabled" = false;
 
-        "permissions.default.geo"        = 2;
+        "geo.enabled" = false;
+
         "permissions.default.camera"     = 2;
         "permissions.default.microphone" = 2;
         "permissions.default.xr"         = 2;
+        "permissions.default.geo"        = 2;
 
         "datareporting.healthreport.uploadEnabled" = false;
         "toolkit.telemetry.enabled"                = false;
         "toolkit.telemetry.unified"                = false;
         "toolkit.telemetry.archive.enabled"        = false;
-        "browser.ping-centre.telemetry"           = false;
+        "browser.ping-centre.telemetry"            = false;
         "browser.newtabpage.activity-stream.telemetry" = false;
 
         "dom.security.https_only_mode" = true;
