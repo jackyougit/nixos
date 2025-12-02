@@ -10,6 +10,7 @@
     ./apps/zsh
     ./apps/ssh
     ./apps/wine
+    ./apps/hyprland
   ];
 
   home.username = "jack";
