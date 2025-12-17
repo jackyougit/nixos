@@ -12,6 +12,7 @@
     vlc
     virt-manager
     qemu
+    libreoffice
   ];
 
   programs.steam = {
