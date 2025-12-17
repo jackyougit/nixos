@@ -7,8 +7,8 @@
   # Your user account
   users.users.jack = {
     isNormalUser = true;
-    extraGroups  = [ "wheel" ];   # sudo via wheel
-    shell        = pkgs.zsh;      # login shell
+    extraGroups  = [ "wheel" "libvirtd" "networkmanager" ];
+    shell        = pkgs.zsh;
     packages     = with pkgs; [
       tree
     ];

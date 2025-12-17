@@ -1,7 +1,6 @@
 { config, pkgs, firefox-addons, ... }:
 
 {
-  
   imports = [
     ./apps/firefox
     ./apps/neovim
@@ -10,7 +9,10 @@
     ./apps/zsh
     ./apps/ssh
     ./apps/wine
-    ./apps/hyprland
+    ./apps/plasma
+    #./apps/hyprland
+    #./apps/waybar
+    #./apps/swaync
   ];
 
   home.username = "jack";
@@ -18,10 +20,26 @@
   home.stateVersion = "25.05";
 
   home.sessionVariables = {
-    EDITOR	= "nvim";
-    VISUAL	= "nvim";
-    SUDO_EDITOR	= "nvim";
+    EDITOR      = "nvim";
+    VISUAL      = "nvim";
+    SUDO_EDITOR = "nvim";
   };
+
+  home.packages = with pkgs; [
+    # ns helper script
+    (pkgs.writeShellApplication {
+      name = "ns";
+      runtimeInputs = with pkgs; [
+        fzf
+        nix-search-tv
+      ];
+      text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
+    })
+
+    # Wallpaper + notifications
+    swww
+    libnotify   # gives you `notify-send`
+  ];
 
   programs.zsh = {
     enable = true;
@@ -37,11 +55,12 @@
 
     shellAliases = {
       ls      = "ls -l";
-      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#jack-pc";
       edit    = "sudo -e";
+      rebuild = "sudo nixos-rebuild switch --flake ~/nixos#jack-pc";
       vim     = "nvim";
     };
 
     history.size = 1000;
   };
 }
+

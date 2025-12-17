@@ -55,5 +55,31 @@
     # For bleeding edge in future you could try:
     # package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
+
+    ########################
+  # Hyprland session     #
+  ########################
+
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+
+  # Portals so screenshare / file dialogs etc. work under Hyprland
+  xdg.portal = {
+    enable = true;
+    xdgOpenUsePortal = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+  };
+
+  # Helpful env vars for Wayland + NVIDIA
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";           # prefer Wayland for Electron/Chromium apps
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    WLR_NO_HARDWARE_CURSORS = "1";  # avoids cursor glitches with NVIDIA sometimes
+  };
 }
 

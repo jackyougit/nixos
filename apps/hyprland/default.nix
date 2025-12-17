@@ -11,7 +11,8 @@
     settings = {
       # Let Hyprland auto-detect monitors
       monitor = [
-        ",preferred,auto,1"
+        "DP-2,2560x1440@165.08,0x0,1,bitdepth,10"
+	"DP-1,2560x1440@165.08,2560x0,1,bitdepth,10"
       ];
 
       input = {
@@ -50,15 +51,26 @@
         enabled = true;
       };
 
+      env = [
+      	"NIXOS_OZONE_WL, 1"
+      	"SDL_VIDEODRIVER, wayland"
+	"MOZ_ENABLE_WAYLAND, 1"
+	"WLR_NO_HARDWARE_CURSORS, 1"
+      ];
+
       # Variables
       "$mod" = "SUPER";
 
       # Keybinds
       bind = [
-        "$mod, Return, exec, kitty"   # launch terminal
         "$mod, Q, killactive,"        # close window
         "$mod, F, togglefloating,"    # toggle floating
         "$mod, M, fullscreen,"        # fullscreen
+
+	# App binds
+	"$mod, T, exec, kitty"
+	"$mod, B, exec, firefox"
+	"$mod, N, exec, swaync-client -t -sw"
 
         # Workspaces 1–5
         "$mod, 1, workspace, 1"
@@ -85,7 +97,8 @@
     };
 
     extraConfig = ''
-      # exec-once = kitty
+      exec-once = waybar
+      exec-once = swaync
     '';
   };
 }

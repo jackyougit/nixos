@@ -9,6 +9,9 @@
     git
     kitty
     vscodium
+    vlc
+    virt-manager
+    qemu
   ];
 
   programs.steam = {

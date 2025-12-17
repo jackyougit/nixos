@@ -10,11 +10,24 @@
   ];
 
   networking.hostName = "jack-pc";
+  
   networking.networkmanager.enable = true;
+
   time.timeZone = "Australia/Perth";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   system.stateVersion = "25.05";
+
+  # Enable libvirt daemon
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      # Use KVM acceleration
+      runAsRoot = false;
+    };
+  };
+
+  programs.virt-manager.enable = true;
 }
