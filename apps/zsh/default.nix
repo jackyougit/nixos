@@ -18,6 +18,8 @@
       rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#jack-pc";
       edit    = "sudo -e";
       vim     = "nvim";
+      wp      = "plasma-span-set";
+      wplist  = "ls -l ~/nixos/wallpapers/*.jpg 2>/dev/null";
     };
 
     history.size = 1000;
