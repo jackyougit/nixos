@@ -53,14 +53,7 @@
       plugins = [ "git" "z" "sudo" ];
     };
 
-    shellAliases = {
-      ls      = "ls -l";
-      edit    = "sudo -e";
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixos#jack-pc";
-      vim     = "nvim";
-    };
-
-    history.size = 1000;
+     history.size = 1000;
   };
 }
 

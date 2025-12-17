@@ -13,9 +13,14 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, firefox-addons, ... }: {
+  outputs = { self, nixpkgs, home-manager, firefox-addons, plasma-manager, ... }: {
     nixosConfigurations.jack-pc = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
 
@@ -26,6 +31,11 @@
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
+
+	    sharedModules = [
+              plasma-manager.homeModules.plasma-manager
+            ];
+
             users.jack = import ./home.nix;
             backupFileExtension = "backup";
 
