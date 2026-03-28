@@ -18,14 +18,58 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, firefox-addons, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      firefox-addons,
+      ...
+    }:
     let
       system = "x86_64-linux";
       username = "jack";
       hostName = "jack-pc";
       configRepo = "/home/${username}/nixos";
+
+      pkgs = nixpkgs.legacyPackages.${system};
     in
     {
+      # This makes `nix fmt` work in this repo.
+      formatter.${system} = pkgs.nixfmt-rfc-style;
+
+      devShells.${system}.default = pkgs.mkShellNoCC {
+        packages = with pkgs; [
+          nixfmt-rfc-style
+          deadnix
+          statix
+        ];
+      };
+      # These run when you use `nix flake check`.
+      checks.${system} = {
+        deadnix =
+          pkgs.runCommand "deadnix-check"
+            {
+              nativeBuildInputs = [ pkgs.deadnix ];
+            }
+            ''
+              cd ${self}
+              deadnix --fail .
+              mkdir -p "$out"
+            '';
+
+        statix =
+          pkgs.runCommand "statix-check"
+            {
+              nativeBuildInputs = [ pkgs.statix ];
+            }
+            ''
+              cd ${self}
+              statix check . --ignore hardware-configuration.nix
+              mkdir -p "$out"
+            '';
+      };
+
       nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
         inherit system;
 
@@ -46,9 +90,13 @@
 
               # Shared values passed into Home Manager modules
               extraSpecialArgs = {
-                inherit username hostName configRepo firefox-addons;
+                inherit
+                  username
+                  hostName
+                  configRepo
+                  firefox-addons
+                  ;
               };
-
               users.${username} = import ./home.nix;
             };
           }

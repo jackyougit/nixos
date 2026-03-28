@@ -1,4 +1,9 @@
-{ lib, pkgs, configRepo, ... }:
+{
+  lib,
+  pkgs,
+  configRepo,
+  ...
+}:
 
 let
   wallpaperDir = "${configRepo}/wallpapers";
@@ -116,7 +121,10 @@ let
 
   plasmaSpanRandom = pkgs.writeShellApplication {
     name = "plasma-span-random";
-    runtimeInputs = with pkgs; [ coreutils findutils ];
+    runtimeInputs = with pkgs; [
+      coreutils
+      findutils
+    ];
     text = ''
       set -euo pipefail
 

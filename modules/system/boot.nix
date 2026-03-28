@@ -1,4 +1,4 @@
-{ ... }:
+_:
 
 {
   # Simple and explicit boot setup

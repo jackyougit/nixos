@@ -1,10 +1,10 @@
-{ ... }:
+_:
 
 {
   programs.git = {
     enable = true;
 
-    userName  = "Jack";
+    userName = "Jack";
     userEmail = "me@jackrbyrne.com";
 
     extraConfig = {

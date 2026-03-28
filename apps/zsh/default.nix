@@ -10,7 +10,11 @@
     oh-my-zsh = {
       enable = true;
       theme = "agnoster";
-      plugins = [ "git" "z" "sudo" ];
+      plugins = [
+        "git"
+        "z"
+        "sudo"
+      ];
     };
 
     shellAliases = {

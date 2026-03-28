@@ -16,45 +16,65 @@
       search = {
         force = true;
         default = "google";
-        order = [ "google" "Searx" ];
+        order = [
+          "google"
+          "Searx"
+        ];
 
         engines = {
           "Nix Packages" = {
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                { name = "type";  value = "packages"; }
-                { name = "query"; value = "{searchTerms}"; }
-              ];
-            }];
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@np" ];
           };
 
           "NixOS Wiki" = {
-            urls = [{
-              template = "https://nixos.wiki/index.php?search={searchTerms}";
-            }];
+            urls = [
+              {
+                template = "https://nixos.wiki/index.php?search={searchTerms}";
+              }
+            ];
             icon = "https://nixos.wiki/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000;
             definedAliases = [ "@nw" ];
           };
 
           "google" = {
-            urls = [{
-              template = "https://www.google.com/search";
-              params = [
-                { name = "q"; value = "{searchTerms}"; }
-              ];
-            }];
+            urls = [
+              {
+                template = "https://www.google.com/search";
+                params = [
+                  {
+                    name = "q";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
             icon = "https://www.google.com/favicon.ico";
             definedAliases = [ "@g" ];
           };
 
           "Searx" = {
-            urls = [{
-              template = "https://searx.aicampground.com/?q={searchTerms}";
-            }];
+            urls = [
+              {
+                template = "https://searx.aicampground.com/?q={searchTerms}";
+              }
+            ];
             icon = "https://nixos.wiki/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000;
             definedAliases = [ "@searx" ];
@@ -69,7 +89,7 @@
         packages = with firefox-addons.packages.${pkgs.system}; [
           ublock-origin
           bitwarden
-	  sponsorblock
+          sponsorblock
         ];
       };
     };
@@ -147,16 +167,16 @@
 
         "geo.enabled" = false;
 
-        "permissions.default.camera"     = 2;
+        "permissions.default.camera" = 2;
         "permissions.default.microphone" = 2;
-        "permissions.default.xr"         = 2;
-        "permissions.default.geo"        = 2;
+        "permissions.default.xr" = 2;
+        "permissions.default.geo" = 2;
 
         "datareporting.healthreport.uploadEnabled" = false;
-        "toolkit.telemetry.enabled"                = false;
-        "toolkit.telemetry.unified"                = false;
-        "toolkit.telemetry.archive.enabled"        = false;
-        "browser.ping-centre.telemetry"            = false;
+        "toolkit.telemetry.enabled" = false;
+        "toolkit.telemetry.unified" = false;
+        "toolkit.telemetry.archive.enabled" = false;
+        "browser.ping-centre.telemetry" = false;
         "browser.newtabpage.activity-stream.telemetry" = false;
 
         "dom.security.https_only_mode" = true;
@@ -166,4 +186,3 @@
     };
   };
 }
-

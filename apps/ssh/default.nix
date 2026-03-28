@@ -1,5 +1,5 @@
 # apps/ssh/default.nix
-{ pkgs, ... }:
+_:
 
 {
   programs.ssh = {
@@ -7,9 +7,9 @@
 
     matchBlocks = {
       "github.com" = {
-        hostname       = "github.com";
-        user           = "git";
-        identityFile   = "~/.ssh/jack-github";
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/jack-github";
         identitiesOnly = true;
       };
     };
@@ -18,4 +18,3 @@
   # Start an ssh-agent for your user
   services.ssh-agent.enable = true;
 }
-

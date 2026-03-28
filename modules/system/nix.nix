@@ -1,9 +1,12 @@
-{ ... }:
+_:
 
 {
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
       # Safe quality-of-life optimisation
       auto-optimise-store = true;

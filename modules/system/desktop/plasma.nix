@@ -1,17 +1,19 @@
 { pkgs, ... }:
 
 {
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "nvidia" ];
-  };
+  services = {
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+    };
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
+    displayManager.sddm = {
+      enable = true;
+      wayland.enable = true;
+    };
 
-  services.desktopManager.plasma6.enable = true;
+    desktopManager.plasma6.enable = true;
+  };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     elisa
@@ -21,7 +23,6 @@
     okular
   ];
 
-  # Plasma-first portal setup
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
@@ -31,11 +32,8 @@
   };
 
   environment.sessionVariables = {
-    # Prefer native Wayland where supported
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
-
-    # Useful on NVIDIA systems
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 }
