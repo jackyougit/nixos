@@ -12,7 +12,6 @@
     ./modules/system/gaming.nix
     ./modules/system/hardware/nvidia.nix
     ./modules/system/desktop/plasma.nix
-    ./modules/system/virtualisation.nix
   ];
 
   # Keep host-specific identity at the top level
