@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ hostName, configRepo, ... }:
 
 {
   programs.zsh = {
@@ -14,13 +14,18 @@
     };
 
     shellAliases = {
-      ls      = "ls -l";
-      rebuild = "sudo nixos-rebuild switch --flake ~/nixos#jack-pc";
-      sysupdate  = "nix flake update --flake ~/nixos && sudo nixos-rebuild switch --flake ~/nixos#jack-pc";
-      edit    = "sudo -e";
-      vim     = "nvim";
-      wp      = "plasma-span-set";
-      wplist  = "ls -l ~/nixos/wallpapers/*.jpg 2>/dev/null";
+      ls = "ls -l";
+
+      # Apply the current pinned system
+      rebuild = "sudo nixos-rebuild switch --flake ${configRepo}#${hostName}";
+
+      # Update flake inputs first, then rebuild
+      sysupgrade = "nix flake update --flake ${configRepo} && sudo nixos-rebuild switch --flake ${configRepo}#${hostName}";
+
+      edit = "sudo -e";
+
+      wp = "plasma-span-set";
+      wplist = "ls -l ${configRepo}/wallpapers/*.jpg 2>/dev/null";
     };
 
     history.size = 1000;

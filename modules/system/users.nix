@@ -1,16 +1,18 @@
-{ config, pkgs, ... }:
+{ pkgs, username, ... }:
 
 {
-  # System-wide zsh support
+  # Required so zsh can be used as a login shell
   programs.zsh.enable = true;
 
-  # Your user account
-  users.users.jack = {
+  users.users.${username} = {
     isNormalUser = true;
-    extraGroups  = [ "wheel" "libvirtd" "networkmanager" ];
-    shell        = pkgs.zsh;
-    packages     = with pkgs; [
-      tree
+    shell = pkgs.zsh;
+
+    # Keep base user groups narrow.
+    # Higher-privilege groups belong in the module that needs them.
+    extraGroups = [
+      "wheel"
+      "networkmanager"
     ];
   };
 }

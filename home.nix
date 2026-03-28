@@ -1,4 +1,4 @@
-{ config, pkgs, firefox-addons, ... }:
+{ pkgs, username, ... }:
 
 {
   imports = [
@@ -10,40 +10,38 @@
     ./apps/ssh
     ./apps/wine
     ./apps/plasma
-    #./apps/hyprland
-    #./apps/waybar
-    #./apps/swaync
   ];
 
-  home.username = "jack";
-  home.homeDirectory = "/home/jack";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "25.05";
 
   home.sessionVariables = {
-    EDITOR      = "nvim";
-    VISUAL      = "nvim";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
     SUDO_EDITOR = "nvim";
   };
 
+  # This belongs at the user environment layer, not inside the Wine module
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   home.packages = with pkgs; [
-    # ns helper script
-    (pkgs.writeShellApplication {
+    tree
+
+    # Python tooling
+    python3
+    pipx
+
+    # Small helper for searching nixpkgs interactively
+    (writeShellApplication {
       name = "ns";
-      runtimeInputs = with pkgs; [
+      runtimeInputs = [
         fzf
         nix-search-tv
       ];
-      text = builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh";
+      text = builtins.readFile "${nix-search-tv.src}/nixpkgs.sh";
     })
-
-    # Wallpaper + notifications
-    swww
-    libnotify   # gives you `notify-send`
-
-    # Python
-    python3
-    pipx
-    python3Packages.pip
   ];
 }
-

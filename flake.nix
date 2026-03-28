@@ -2,80 +2,57 @@
   description = "Jack's NixOS configuration";
 
   inputs = {
+    # One primary nixpkgs input for the whole system
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
 
-    # Newer channel for specific packages
-    nixpkgs-25_11.url = "github:NixOS/nixpkgs/nixos-25.11";
-
+    # Keep Home Manager on the matching release line
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Keep this because your Firefox module uses it
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-25_11, home-manager, firefox-addons, plasma-manager, ... }:
-  let
-    system = "x86_64-linux";
-    lib = nixpkgs.lib;
+  outputs = { nixpkgs, home-manager, firefox-addons, ... }:
+    let
+      system = "x86_64-linux";
+      username = "jack";
+      hostName = "jack-pc";
+      configRepo = "/home/${username}/nixos";
+    in
+    {
+      nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
+        inherit system;
 
-    # Allow ONLY this unfree package
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "fastmail-desktop"
-    ];
+        # Shared values passed into NixOS modules
+        specialArgs = {
+          inherit username hostName configRepo;
+        };
 
-    # Import 25.11 with the unfree predicate applied
-    pkgs25_11 = import nixpkgs-25_11 {
-      inherit system;
-      config.allowUnfreePredicate = allowUnfreePredicate;
-    };
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
 
-    # Overlay: expose fastmail-desktop into your normal pkgs
-    fastmailOverlay = final: prev: {
-      fastmail-desktop = pkgs25_11.fastmail-desktop;
-    };
-  in
-  {
-    nixosConfigurations.jack-pc = nixpkgs.lib.nixosSystem {
-      inherit system;
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
 
-      modules = [
-        # Enable overlay + (optional) also allow the same predicate on your main pkgs
-        ({ ... }: {
-          nixpkgs.overlays = [ fastmailOverlay ];
-          nixpkgs.config.allowUnfreePredicate = allowUnfreePredicate;
-        })
+              # Shared values passed into Home Manager modules
+              extraSpecialArgs = {
+                inherit username hostName configRepo firefox-addons;
+              };
 
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            useGlobalPkgs = true;
-            useUserPackages = true;
-
-            sharedModules = [
-              plasma-manager.homeModules.plasma-manager
-            ];
-
-            users.jack = import ./home.nix;
-            backupFileExtension = "backup";
-
-            extraSpecialArgs = {
-              inherit firefox-addons;
+              users.${username} = import ./home.nix;
             };
-          };
-        }
-      ];
+          }
+        ];
+      };
     };
-  };
 }
-

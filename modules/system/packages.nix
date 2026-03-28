@@ -1,33 +1,16 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  # System-level programs (available to all users)
-
+  # Keep this list for genuinely machine-wide packages only.
+  # User-facing tools such as git, neovim, kitty, and tree belong in Home Manager.
   environment.systemPackages = with pkgs; [
-    neovim
     wget
-    git
-    kitty
     vscodium
     vlc
-    virt-manager
-    qemu
     libreoffice
-    #fastmail-desktop
   ];
 
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-
-  programs.gamemode.enable = true;
-
-  hardware.steam-hardware.enable = true;
-
-  # System fonts
+  # Fonts available system-wide
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
