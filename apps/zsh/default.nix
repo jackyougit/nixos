@@ -15,7 +15,8 @@
 
     shellAliases = {
       ls      = "ls -l";
-      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos#jack-pc";
+      rebuild = "sudo nixos-rebuild switch --flake ~/nixos#jack-pc";
+      sysupdate  = "nix flake update --flake ~/nixos && sudo nixos-rebuild switch --flake ~/nixos#jack-pc";
       edit    = "sudo -e";
       vim     = "nvim";
       wp      = "plasma-span-set";

@@ -39,21 +39,11 @@
     # Wallpaper + notifications
     swww
     libnotify   # gives you `notify-send`
+
+    # Python
+    python3
+    pipx
+    python3Packages.pip
   ];
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "agnoster";
-      plugins = [ "git" "z" "sudo" ];
-    };
-
-     history.size = 1000;
-  };
 }
 

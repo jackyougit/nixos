@@ -13,7 +13,7 @@
     virt-manager
     qemu
     libreoffice
-    fastmail-desktop
+    #fastmail-desktop
   ];
 
   programs.steam = {
