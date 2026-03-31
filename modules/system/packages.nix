@@ -8,6 +8,7 @@
     vscodium
     vlc
     libreoffice
+    b2-tools
   ];
 
   # Fonts available system-wide
