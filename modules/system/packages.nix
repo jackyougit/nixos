@@ -8,7 +8,7 @@
     vscodium
     vlc
     libreoffice
-    b2-tools
+    backblaze-b2
   ];
 
   # Fonts available system-wide
