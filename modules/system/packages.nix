@@ -9,6 +9,7 @@
     vlc
     libreoffice
     backblaze-b2
+    claude-code
   ];
 
   # Fonts available system-wide
