@@ -1,11 +1,5 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
-let
-  unstable = import inputs.nixpkgs-unstable {
-    system = pkgs.system;
-    config.allowUnfree = true;
-  };
-in
 {
   environment.systemPackages = with pkgs; [
     wget
@@ -13,8 +7,6 @@ in
     vlc
     libreoffice
     backblaze-b2
-  ] ++ [
-    unstable.claude-code
   ];
 
   fonts.packages = with pkgs; [
