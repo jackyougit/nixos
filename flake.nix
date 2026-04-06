@@ -4,6 +4,7 @@
   inputs = {
     # One primary nixpkgs input for the whole system
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Keep Home Manager on the matching release line
     home-manager = {
@@ -16,12 +17,15 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       firefox-addons,
       ...
@@ -75,7 +79,7 @@
 
         # Shared values passed into NixOS modules
         specialArgs = {
-          inherit username hostName configRepo;
+          inherit username hostName configRepo inputs;
         };
 
         modules = [
