@@ -7,6 +7,7 @@
     vlc
     libreoffice
     backblaze-b2
+    googleearth-pro
   ];
 
   fonts.packages = with pkgs; [

@@ -13,8 +13,13 @@ _:
     };
   };
 
-  # Be honest about the policy on this host.
-  # Steam is unfree, so a fake "only allow one unfree package" setup would just
-  # be misleading unless you carefully enumerate every required package.
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    # Steam already means this host uses unfree packages
+    allowUnfree = true;
+
+    # Google Earth Pro is currently flagged insecure in nixpkgs
+    permittedInsecurePackages = [
+      "googleearth-pro-7.3.6.10201"
+    ];
+  };
 }
