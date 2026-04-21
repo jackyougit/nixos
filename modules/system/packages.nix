@@ -8,6 +8,8 @@
     libreoffice
     backblaze-b2
     googleearth-pro
+    samba
+    kdePackages.kdenetwork-filesharing
   ];
 
   fonts.packages = with pkgs; [
