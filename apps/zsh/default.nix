@@ -19,6 +19,7 @@
 
     shellAliases = {
       ls = "ls -l";
+      ssh = "kitten ssh";
 
       # Apply the current pinned system
       rebuild = "sudo nixos-rebuild switch --flake ${configRepo}#${hostName}";
