@@ -10,6 +10,8 @@
     googleearth-pro
     samba
     kdePackages.kdenetwork-filesharing
+    spotify
+    gemini-cli
   ];
 
   fonts.packages = with pkgs; [
