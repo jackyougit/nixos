@@ -26,7 +26,7 @@
   system.stateVersion = "25.05";
 
   security.pki.certificateFiles = [
-  ./certs/byrne-root-ca.pem
-];
+    ./certs/byrne-root-ca.pem
+  ];
 
 }
