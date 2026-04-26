@@ -1,4 +1,4 @@
-{ hostName, configRepo, ... }:
+{ hostName, configRepo, lib, ... }:
 {
   programs.zsh = {
     enable = true;
@@ -14,7 +14,7 @@
         "sudo"
       ];
     };
-    initContent = ''
+    initContent = lib.mkAfter ''
       # Override oh-my-zsh anchor-based matchers that break kitty completion
       zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
     '';
