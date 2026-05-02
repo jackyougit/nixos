@@ -21,8 +21,8 @@ _:
 	port = 22;
       };
 
-      "dns" = {
-      	hostname ="dns.byrne.internal";
+      "pi" = {
+      	hostname ="pi.byrne.internal";
 	user = "jack";
 	identityFile = "~/.ssh/jack";
 	identitiesOnly = true;

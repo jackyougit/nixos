@@ -12,6 +12,10 @@
     kdePackages.kdenetwork-filesharing
     spotify
     gemini-cli
+    claude-code
+    scrcpy
+    libxml2
+    kdePackages.ksshaskpass
   ];
 
   fonts.packages = with pkgs; [

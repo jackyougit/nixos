@@ -6,6 +6,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    claude-code.url = "github:sadjow/claude-code-nix";
+
     # Keep Home Manager on the matching release line
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
@@ -17,8 +19,6 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-
   };
 
   outputs =
@@ -28,6 +28,7 @@
       nixpkgs-unstable,
       home-manager,
       firefox-addons,
+      claude-code,
       ...
     }:
     let
@@ -35,7 +36,6 @@
       username = "jack";
       hostName = "jack-pc";
       configRepo = "/home/${username}/nixos";
-
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
@@ -49,6 +49,7 @@
           statix
         ];
       };
+
       # These run when you use `nix flake check`.
       checks.${system} = {
         deadnix =
@@ -61,7 +62,6 @@
               deadnix --fail .
               mkdir -p "$out"
             '';
-
         statix =
           pkgs.runCommand "statix-check"
             {
@@ -85,7 +85,6 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
-
           {
             home-manager = {
               useGlobalPkgs = true;
@@ -101,7 +100,33 @@
                   firefox-addons
                   ;
               };
+
               users.${username} = import ./home.nix;
+            };
+          }
+
+          # Pin scrcpy to nixos-unstable for Android 16 compatibility.
+          # nixos-25.05 ships scrcpy 3.3, which crashes on Android 16 with
+          # AbstractMethodError on IDisplayWindowListener.
+          # Fixed upstream in scrcpy v3.3.3 (Sept 2025). Remove this override
+          # once 25.05 backports a newer release.
+          {
+            nixpkgs.overlays = [
+              (_: _: {
+                scrcpy = nixpkgs-unstable.legacyPackages.${system}.scrcpy;
+              })
+            ];
+          }
+
+          # claude-code: overlay makes pkgs.claude-code available system-wide;
+          # substituters pull pre-built binaries from Cachix instead of compiling.
+          {
+            nixpkgs.overlays = [ claude-code.overlays.default ];
+            nix.settings = {
+              substituters = [ "https://claude-code.cachix.org" ];
+              trusted-public-keys = [
+                "claude-code.cachix.org-1:YeXf2aNu7UTX8Vwrze0za1WEDS+4DuI2kVeWEE4fsRk="
+              ];
             };
           }
         ];

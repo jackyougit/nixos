@@ -3,6 +3,7 @@
 {
   # Required so zsh can be used as a login shell
   programs.zsh.enable = true;
+  programs.adb.enable = true;
 
   users.users.${username} = {
     isNormalUser = true;
@@ -13,6 +14,7 @@
     extraGroups = [
       "wheel"
       "networkmanager"
+      "adbusers"
     ];
   };
 }

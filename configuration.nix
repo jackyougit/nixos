@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-
+    ./modules/system/ssh-ca.nix
     ./modules/system/boot.nix
     ./modules/system/networking.nix
     ./modules/system/nix.nix
