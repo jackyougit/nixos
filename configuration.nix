@@ -8,6 +8,7 @@
     ./modules/system/networking.nix
     ./modules/system/nix.nix
     ./modules/system/users.nix
+    ./modules/system/yubikey.nix
     ./modules/system/packages.nix
     ./modules/system/gaming.nix
     ./modules/system/hardware/nvidia.nix
